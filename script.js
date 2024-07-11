@@ -34,3 +34,27 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 }); // this btn 'keyword' listener helps us to remove model with "escape" key and !modal.classList.contains('hidden') is here to check if there is any hidden class available or not if yes closeModal() func runs
+//
+// selecting elementss
+const header = document.querySelector('.header');
+const allSelections = document.querySelectorAll('.section');
+console.log(allSelections);
+document.getElementById('section--1');
+const allButtons = document.getElementsByTagName('button'); // <button> <- this is called tag
+document.getElementsByClassName('btn');
+// creating elements
+const message = document.createElement('div');
+message.classList.add('cookie-message');
+message.innerHTML =
+  'We use cookies for better functionality and analytics. <button class = "btn btn--close-cookie">Got it!</button>';
+//placing the div .
+// header.prepend(message);
+header.append(message);
+// header.after(message);
+// header.before(message);
+//delete elements
+document
+  .querySelector('.btn--close-cookie')
+  .addEventListener('click', function () {
+    message.remove();
+  });
