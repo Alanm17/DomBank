@@ -58,3 +58,41 @@ document
   .addEventListener('click', function () {
     message.remove();
   });
+
+/// classlist Styles
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+console.log(message.style.backgroundColor);
+console.log(message.style.width);
+console.log(getComputedStyle(message).backgroundColor);
+console.log(getComputedStyle(message).height);
+
+message.style.height = // the original height is 49px  and now it is becoming 79px as 30 is added with parseFloat
+  Number.parseFloat(getComputedStyle(message).height) + 30 + 'px'; // here with parseFloat we are taking the number out of string and adding to the original class
+console.log(getComputedStyle(message).height);
+// we use setProperty method to change values of variables in css :root and we need to select it using documentElement as it belongs to document
+document.documentElement.style.setProperty('--color-primary', '#fa8074');
+
+// Attributes
+const logo = document.querySelector('.nav__logo');
+console.log(logo);
+console.log(logo.alt);
+console.log(logo.getAttribute('src'));
+console.log(logo.src);
+//non-standard
+console.log(logo.designer); // undefined
+// getAttribute = tegishli bo'lgan dep tarjima qilinib u bilan masalan classga id yoki bu joyda designer degan elementga tegishli bolgan value ni olish uchun yoki o'zgartrish uchun setAttribute() dan foydalansa boladi
+console.log(logo.getAttribute('designer')); //Alan
+console.log(logo.setAttribute('designer', 'Muhammadaziz'));
+//yoki yaratsa boladi
+logo.setAttribute('lives', 'Korea');
+console.log(logo.className);
+console.log(logo.id);
+console.log(document.querySelector('.nav__link--btn').getAttribute('href')); //link ni ham olsak boladi
+console.log(logo.dataset.versionN); //getting property named data-version-n
+
+logo.classList.add('b', 'a'); // output nav__logo itslef and then b a like class ='nav__logo b a'
+logo.classList.remove('b', 'a'); // removes
+logo.classList.toggle('c'); //adding class
+console.log(logo.classList.contains('c')); //true
+console.log(logo);
