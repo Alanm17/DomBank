@@ -12,12 +12,12 @@ const section1 = document.getElementById('section--1');
 //
 // adding an event listner to Learn More button
 scrollDown.addEventListener('click', function (e) {
-  const coordsS1 = section1.getBoundingClientRect();
-  console.log(coordsS1);
-  console.log(e.target.getBoundingClientRect()); // updated version of pageX/YOffset is scrollY/X
-  console.log('this is the data of X', window.scrollY, window.scrollX); //The window.pageXOffset property returns the number of pixels that the document has been horizontally scrolled from the left edge. Similarly, window.pageYOffset returns the number of pixels that the document has been vertically scrolled from the top edge.
-  console.log(document.documentElement.clientHeight); // bu ekran klentga qancha darajada ochiqligini px lda korsatadi
-  // window.scrollTo(
+  // const coordsS1 = section1.getBoundingClientRect();
+  // console.log(coordsS1);
+  // console.log(e.target.getBoundingClientRect()); // updated version of pageX/YOffset is scrollY/X
+  // console.log('this is the data of X', window.scrollY, window.scrollX); //The window.pageXOffset property returns the number of pixels that the document has been horizontally scrolled from the left edge. Similarly, window.pageYOffset returns the number of pixels that the document has been vertically scrolled from the top edge.
+  // console.log(document.documentElement.clientHeight); // bu ekran klentga qancha darajada ochiqligini px lda korsatadi
+  // // window.scrollTo(
   //   window.scrollX + coordsS1.left,
   //   coordsS1.top + window.scrollY
   // );
@@ -30,6 +30,19 @@ scrollDown.addEventListener('click', function (e) {
 });
 // so in order to make this function we needed first section1.getBoundingClientRect() to get coordinates/pixels of each sides and after window.scrollTo() function to use scroll window.scrollX + coordsS1.left, coordsS1.top + window.scrollY  scrollY/X
 // vertical means '|' and horizontal '__'
+//
+//
+const h1 = document.querySelector('h1');
+const alert1 = function () {
+  alert('you are using mouseenter event on heading');
+
+  h1.removeEventListener('mouseenter', alert1); // removing the event right after it worked once
+  // or we can put time to remove or add it after some time
+  setTimeout(() => {
+    h1.addEventListener('mouseenter', alert1);
+  }, 10000);
+};
+h1.addEventListener('mouseenter', alert1);
 
 const openModal = function (e) {
   e.preventDefault();
