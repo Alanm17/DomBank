@@ -9,8 +9,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const scrollDown = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
+const h1 = document.querySelector('h1');
 //
 // adding an event listner to Learn More button
+// scroll function
 scrollDown.addEventListener('click', function (e) {
   // const coordsS1 = section1.getBoundingClientRect();
   // console.log(coordsS1);
@@ -32,7 +34,7 @@ scrollDown.addEventListener('click', function (e) {
 // vertical means '|' and horizontal '__'
 //
 //
-const h1 = document.querySelector('h1');
+
 const alert1 = function () {
   alert('you are using mouseenter event on heading');
 
@@ -71,6 +73,17 @@ document.addEventListener('keydown', function (e) {
   }
 }); // this btn 'keyword' listener helps us to remove model with "escape" key and !modal.classList.contains('hidden') is here to check if there is any hidden class available or not if yes closeModal() func runs
 //
+
+/// nav bar scrolling with using target and contains and matching strategy event deligation
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
 // // selecting elementss
 // const header = document.querySelector('.header');
 // const allSelections = document.querySelectorAll('.section');
@@ -134,35 +147,21 @@ document.addEventListener('keydown', function (e) {
 // console.log(logo);
 //
 // rgb(255, 255, 255);
-const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
-const randomColor = () =>
-  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
-//
-document.querySelector('.nav__link').addEventListener(
-  'click',
-  function (e) {
-    this.style.backgroundColor = randomColor();
-    e.stopPropagation();
-  },
-  true
-);
+// const randomInt = (min, max) =>
+//   Math.floor(Math.random() * (max - min + 1) + min);
+// const randomColor = () =>
+//   `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+// //
+// document.querySelector('.nav__link').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+//   e.stopPropagation();
+// });
 
-document.querySelector('.nav__links').addEventListener(
-  'click',
-  function (e) {
-    this.style.backgroundColor = randomColor();
-    e.stopPropagation();
-  },
-  true
-);
-//
-//
-document.querySelector('.nav').addEventListener(
-  'click',
-  function (e) {
-    this.style.backgroundColor = randomColor();
-    e.stopPropagation();
-  },
-  true
-);
+// document.querySelector('.nav__links').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+// });
+// //
+// //
+// document.querySelector('.nav').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+// });
