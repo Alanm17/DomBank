@@ -10,6 +10,10 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const scrollDown = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
 const h1 = document.querySelector('h1');
+const nav = document.querySelector('.nav');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 //
 // adding an event listner to Learn More button
 // scroll function
@@ -34,6 +38,45 @@ scrollDown.addEventListener('click', function (e) {
 // vertical means '|' and horizontal '__'
 //
 //
+// Info Bar Selection Page
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  // console.log(clicked);
+  if (!clicked) return;
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(con =>
+    con.classList.remove('operations__content--active')
+  );
+  clicked.classList.add('operations__tab--active');
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+//NAV HOVERING
+
+const hoverOver = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    // this method called 'contains()' can be used to find class names
+    const link = e.target;
+    // const siblings = nav.querySelectorAll('.nav__link'); //const siblings = link.closest('.nav')// this closest method is used to find the more relative class name or parent element of the target which is clicked over mouseovered
+    // console.log(siblings);
+    const logo = link.closest('.nav').querySelector('img');
+    // console.log(logo);
+    /// here we are simply selecting all html link elements named nav__link and adding funcion to each of them with the help of forEach method
+    nav.querySelectorAll('.nav__link').forEach(element => {
+      if (element !== link) element.style.opacity = this;
+    });
+    logo.style.opacity = 1; // we selected logo seperately as it was the first child of parent nav so we made the value of 1 set
+  }
+};
+
+nav.addEventListener('mouseover', hoverOver.bind(0.5)); // so we can use bind method to set value in function
+nav.addEventListener('mouseout', hoverOver.bind(1)); // same here
+// reminder bind method creates the same function with its this keyword to set the provided value or set value
+// now the point is hoverOver.bind(0.5)) in this function as we could not just set values to the function because we could not use it in two functions we did so  we equaled the opacity to == this and with bind method we created the same function inside Event and set desired value inside bind . so the parent of this bind is the value entered value === this
+//ex :
+// hoverOver.bind(0.5) // output this==0.5
 
 const alert1 = function () {
   alert('you are using mouseenter event on heading');
@@ -195,52 +238,3 @@ h1.closest('.h2');
 // console.log(h1.parentElement);
 // console.log(h1.parentElement.children);
 // console.log();
-
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
-tabsContainer.addEventListener('click', function (e) {
-  const clicked = e.target.closest('.operations__tab');
-  console.log(clicked);
-  if (!clicked) return;
-  tabs.forEach(t => t.classList.remove('operations__tab--active'));
-  tabsContent.forEach(con =>
-    con.classList.remove('operations__content--active')
-  );
-
-  // active tab
-  clicked.classList.add('operations__tab--active');
-  console.log(clicked.dataset.tab);
-  // active content
-  // tabsContent.classList.add('operations__content--active');
-  document
-    .querySelector(`.operations__content--${clicked.dataset.tab}`)
-    .classList.add('operations__content--active');
-});
-
-// nav bars
-const nav = document.querySelector('.nav');
-
-const hoverOver = function (e) {
-  if (e.target.classList.contains('nav__link')) {
-    // this method called 'contains()' can be used to find class names
-    const link = e.target;
-    // const siblings = nav.querySelectorAll('.nav__link'); //const siblings = link.closest('.nav')// this closest method is used to find the more relative class name or parent element of the target which is clicked over mouseovered
-    // console.log(siblings);
-    const logo = link.closest('.nav').querySelector('img');
-    // console.log(logo);
-    /// here we are simply selecting all html link elements named nav__link and adding funcion to each of them with the help of forEach method
-    nav.querySelectorAll('.nav__link').forEach(element => {
-      if (element !== link) element.style.opacity = this;
-    });
-    logo.style.opacity = 1; // we selected logo seperately as it was the first child of parent nav so we made the value of 1 set
-  }
-};
-
-nav.addEventListener('mouseover', hoverOver.bind(0.5)); // so we can use bind method to set value in function
-nav.addEventListener('mouseout', hoverOver.bind(1)); // same here
-// reminder bind method creates the same function with its this keyword to set the provided value or set value
-// now the point is hoverOver.bind(0.5)) in this function as we could not just set values to the function because we could not use it in two functions we did so  we equaled the opacity to == this and with bind method we created the same function inside Event and set desired value inside bind . so the parent of this bind is the value entered value === this
-//ex :
-// hoverOver.bind(0.5) // output this==0.5
