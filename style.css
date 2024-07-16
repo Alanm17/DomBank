@@ -75,7 +75,7 @@ body {
   padding: 1.25rem 4.5rem;
   border-radius: 10rem;
   cursor: pointer;
-  /* transition: as; */
+  transition: all 0.3s;
 }
 
 .btn:hover {
@@ -658,7 +658,7 @@ h4 {
 
 .hidden {
   visibility: hidden;
-  opacity: 100;
+  opacity: 0;
 }
 
 /* COOKIE MESSAGE */

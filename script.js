@@ -75,7 +75,8 @@ document.addEventListener('keydown', function (e) {
 //
 
 /// nav bar scrolling with using target and contains and matching strategy event deligation
-
+// The event.target property can be used in order to implement event delegation.
+// vent delegation is a powerful technique that simplifies event handling, improves performance, and enhances the flexibility of your code. By leveraging the event bubbling mechanism, you can efficiently manage events on a group of elements rather than dealing with each one individually.
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
@@ -165,3 +166,81 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // document.querySelector('.nav').addEventListener('click', function (e) {
 //   this.style.backgroundColor = randomColor();
 // });
+
+//
+// DOm traversing
+
+// const h11 = document.querySelector('h1');
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes);
+// console.log(h1.children);
+// console.log(h1.parentNode);
+// console.log(h11.parentElement);
+h1.firstElementChild.style.color = '#ffff';
+h1.lastElementChild.style.color = 'orangered';
+
+/// going upward parents
+h1.closest('.h2');
+// h1.closest('.header').style.background = 'var(--gradient-primary)';
+//The closest() method searches up the DOM tree for elements which matches a specified CSS selector.
+
+//The closest() method starts at the element itself, then the anchestors (parent, grandparent, ...) until a match is found.
+
+//The closest() method returns null() if no match is found.
+// berilgan nom yani .header ni h1 ga eng yaqinini topadi va belgilaydi
+
+// going sideways:siblings
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+// console.log(h1.parentElement);
+// console.log(h1.parentElement.children);
+// console.log();
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+  if (!clicked) return;
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  tabsContent.forEach(con =>
+    con.classList.remove('operations__content--active')
+  );
+
+  // active tab
+  clicked.classList.add('operations__tab--active');
+  console.log(clicked.dataset.tab);
+  // active content
+  // tabsContent.classList.add('operations__content--active');
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+// nav bars
+const nav = document.querySelector('.nav');
+
+const hoverOver = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    // this method called 'contains()' can be used to find class names
+    const link = e.target;
+    // const siblings = nav.querySelectorAll('.nav__link'); //const siblings = link.closest('.nav')// this closest method is used to find the more relative class name or parent element of the target which is clicked over mouseovered
+    // console.log(siblings);
+    const logo = link.closest('.nav').querySelector('img');
+    // console.log(logo);
+    /// here we are simply selecting all html link elements named nav__link and adding funcion to each of them with the help of forEach method
+    nav.querySelectorAll('.nav__link').forEach(element => {
+      if (element !== link) element.style.opacity = this;
+    });
+    logo.style.opacity = 1; // we selected logo seperately as it was the first child of parent nav so we made the value of 1 set
+  }
+};
+
+nav.addEventListener('mouseover', hoverOver.bind(0.5)); // so we can use bind method to set value in function
+nav.addEventListener('mouseout', hoverOver.bind(1)); // same here
+// reminder bind method creates the same function with its this keyword to set the provided value or set value
+// now the point is hoverOver.bind(0.5)) in this function as we could not just set values to the function because we could not use it in two functions we did so  we equaled the opacity to == this and with bind method we created the same function inside Event and set desired value inside bind . so the parent of this bind is the value entered value === this
+//ex :
+// hoverOver.bind(0.5) // output this==0.5
