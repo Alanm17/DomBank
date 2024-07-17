@@ -9,12 +9,24 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const scrollDown = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
+const section2 = document.getElementById('section--2');
 const h1 = document.querySelector('h1');
 const nav = document.querySelector('.nav');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 //
+const stickyclass = function () {
+  // const link = e.target.closest('.nav');
+  const coord1 = section1.getBoundingClientRect();
+  const coord2 = section2.getBoundingClientRect();
+
+  if (window.scrollY - 700 > coord1.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+
+  // window.pa;
+};
+window.addEventListener('scroll', stickyclass);
 // adding an event listner to Learn More button
 // scroll function
 scrollDown.addEventListener('click', function (e) {
