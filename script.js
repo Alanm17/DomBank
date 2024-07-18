@@ -26,11 +26,11 @@ const tabsContent = document.querySelectorAll('.operations__content');
 // };
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
-console.log(navHeight);
+// console.log(navHeight);
 function callObserve(entries, observe) {
   if (!entries[0].isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
-  console.log(entries);
+  // console.log(entries);
 }
 // bu IntersectionObserver funksiyasi asosan sticky nav yoki bar larga ishlatiladi
 // observer.observe(header); bu narsa headerni belgilab olp unga threshold: 0, shu narsa bilan tasir foizini belgilab nmanidir boshlash yoki boshlamaslikni buyuradi callback fnc bilan agar tasir bor bolsa isIntersecting true truda yoksa false ex:if (!entries[0].isIntersecting) nav.classList.add('sticky');
@@ -41,6 +41,27 @@ const observer = new IntersectionObserver(callObserve, {
   rootMargin: `-${navHeight}px`,
 });
 observer.observe(header);
+
+// nice scrolled textAll
+const sections = document.querySelectorAll('.section');
+
+const RevealFunc = function (secHead) {
+  secHead.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.remove('section--hidden');
+    observerr.unobserve(entry.target);
+  });
+};
+const observerr = new IntersectionObserver(callfuncH, {
+  root: null,
+  threshold: 0.15,
+  // rootMargin: `-50px`,
+});
+sections.forEach(section => {
+  observerr.observe(section);
+  section.classList.add('section--hidden');
+});
+// observerr.observe(sections);
 
 // window.addEventListener('scroll', stickyclass);
 // // adding an event listner to Learn More button
