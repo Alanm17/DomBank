@@ -45,14 +45,14 @@ observer.observe(header);
 // nice scrolled textAll
 const sections = document.querySelectorAll('.section');
 
-const RevealFunc = function (secHead) {
+const revealFunc = function (secHead) {
   secHead.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.classList.remove('section--hidden');
     observerr.unobserve(entry.target);
   });
 };
-const observerr = new IntersectionObserver(callfuncH, {
+const observerr = new IntersectionObserver(revealFunc, {
   root: null,
   threshold: 0.15,
   // rootMargin: `-50px`,
