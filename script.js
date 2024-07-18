@@ -72,6 +72,7 @@ const loadImg = function (entries, observer) {
   // console.log(entry.target.src);
   // console.log(entry.target.dataset.src);
   entry.target.src = entry.target.dataset.src;
+  // addEventListener('load' vazifasi qachonki entry.target tayyor bolsa yani yangi rasmni joylagandan keyin blur classni remove qiladi
   entry.target.addEventListener('load', function () {
     entry.target.classList.remove('lazy-img');
   });
