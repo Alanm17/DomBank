@@ -16,19 +16,35 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 //
-const stickyclass = function () {
-  // const link = e.target.closest('.nav');
-  const coord1 = section1.getBoundingClientRect();
-  const coord2 = section2.getBoundingClientRect();
+// const stickyclass = function () {
+//   // const link = e.target.closest('.nav');
+//   const coord1 = section1.getBoundingClientRect();
+//   const coord2 = section2.getBoundingClientRect();
 
-  if (window.scrollY - 700 > coord1.top) nav.classList.add('sticky');
+//   if (window.scrollY - 700 > coord1.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// };
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+function callObserve(entries, observe) {
+  if (!entries[0].isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
+  console.log(entries);
+}
+// bu IntersectionObserver funksiyasi asosan sticky nav yoki bar larga ishlatiladi
+// observer.observe(header); bu narsa headerni belgilab olp unga threshold: 0, shu narsa bilan tasir foizini belgilab nmanidir boshlash yoki boshlamaslikni buyuradi callback fnc bilan agar tasir bor bolsa isIntersecting true truda yoksa false ex:if (!entries[0].isIntersecting) nav.classList.add('sticky');
 
-  // window.pa;
-};
-window.addEventListener('scroll', stickyclass);
-// adding an event listner to Learn More button
-// scroll function
+const observer = new IntersectionObserver(callObserve, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+observer.observe(header);
+
+// window.addEventListener('scroll', stickyclass);
+// // adding an event listner to Learn More button
+// // scroll function
 scrollDown.addEventListener('click', function (e) {
   // const coordsS1 = section1.getBoundingClientRect();
   // console.log(coordsS1);
