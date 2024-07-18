@@ -61,9 +61,30 @@ sections.forEach(section => {
   observerr.observe(section);
   section.classList.add('section--hidden');
 });
-// observerr.observe(sections);
+// working with lazy loading images !important
+const allImageN = document.querySelectorAll('img[data-src]');
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entries);
 
-// window.addEventListener('scroll', stickyclass);
+  if (!entry.isIntersecting) return;
+  //importantpart bu joyda biz asosiy img yani 0.1mb lik img ni 1 mb lik imgga almashtryabmiz
+  // console.log(entry.target.src);
+  // console.log(entry.target.dataset.src);
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+// console.log(allImageN);
+const lazyLoad = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+allImageN.forEach(img => lazyLoad.observe(img));
+
 // // adding an event listner to Learn More button
 // // scroll function
 scrollDown.addEventListener('click', function (e) {
