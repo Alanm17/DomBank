@@ -59,13 +59,13 @@ const observerr = new IntersectionObserver(revealFunc, {
 });
 sections.forEach(section => {
   observerr.observe(section);
-  section.classList.add('section--hidden');
+  // section.classList.add('section--hidden'); +++++++++++++++++++++++++++++++++++++++++togrila
 });
 // working with lazy loading images !important
 const allImageN = document.querySelectorAll('img[data-src]');
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  console.log(entries);
+  // console.log(entries);
 
   if (!entry.isIntersecting) return;
   //importantpart bu joyda biz asosiy img yani 0.1mb lik img ni 1 mb lik imgga almashtryabmiz
@@ -86,6 +86,45 @@ const lazyLoad = new IntersectionObserver(loadImg, {
 });
 allImageN.forEach(img => lazyLoad.observe(img));
 
+// working with slides
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+let curSlide = 0;
+const maxSlide = slides.length;
+// slider.style.transform = 'scale(0.6) ';
+// slider.style.overflow = 'visible';
+// slider.style.width = '100rem';
+// const visibleSlide = 2;
+const slideIt = function (slide) {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateX(${100 * (i - slide)}%)`; // eng muhum joyi shu ==========>
+  });
+};
+
+const prevSlide = function () {
+  if (curSlide == 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+  slideIt(curSlide);
+};
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+  slideIt(curSlide);
+};
+btnLeft.addEventListener('click', prevSlide);
+btnRight.addEventListener('click', nextSlide);
+setInterval(() => {
+  nextSlide();
+  slideIt(curSlide);
+}, 9000);
 // // adding an event listner to Learn More button
 // // scroll function
 scrollDown.addEventListener('click', function (e) {
