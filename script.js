@@ -59,7 +59,7 @@ const observerr = new IntersectionObserver(revealFunc, {
 });
 sections.forEach(section => {
   observerr.observe(section);
-  // section.classList.add('section--hidden'); +++++++++++++++++++++++++++++++++++++++++togrila
+  section.classList.add('section--hidden'); // +++++++++++++++++++++++++++++++++++++++++togrila
 });
 // working with lazy loading images !important
 const allImageN = document.querySelectorAll('img[data-src]');
@@ -97,6 +97,15 @@ const maxSlide = slides.length;
 // slider.style.overflow = 'visible';
 // slider.style.width = '100rem';
 // const visibleSlide = 2;
+const dotActive = function (slide) {
+  document.querySelectorAll('.dots__dot').forEach(dot => {
+    dot.classList.remove('dots__dot--active');
+  });
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+};
+
 const slideIt = function (slide) {
   slides.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - slide)}%)`; // eng muhum joyi shu ==========>
@@ -110,7 +119,9 @@ const prevSlide = function () {
     curSlide--;
   }
   slideIt(curSlide);
+  dotActive(curSlide);
 };
+slideIt(0);
 const nextSlide = function () {
   if (curSlide === maxSlide - 1) {
     curSlide = 0;
@@ -118,14 +129,44 @@ const nextSlide = function () {
     curSlide++;
   }
   slideIt(curSlide);
+  dotActive(curSlide);
 };
 btnLeft.addEventListener('click', prevSlide);
 btnRight.addEventListener('click', nextSlide);
+
 setInterval(() => {
   nextSlide();
   slideIt(curSlide);
+  // dotActive(curSlide);
 }, 9000);
-// // adding an event listner to Learn More button
+// keyboard slideChange func event
+document.addEventListener('keydown', function (e) {
+  console.log(e);
+  e.key === 'ArrowLeft' && prevSlide();
+  e.key === 'ArrowRight' && nextSlide();
+});
+// dots
+const dotOwner = document.querySelector('.dots');
+const createDots = function () {
+  slides.forEach(function (_, i) {
+    dotOwner.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+
+createDots();
+
+dotOwner.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    // console.log(slide);
+    console.log(e.target.dataset);
+    slideIt(slide);
+    dotActive(slide);
+  }
+}); // // adding an event listner to Learn More button
 // // scroll function
 scrollDown.addEventListener('click', function (e) {
   // const coordsS1 = section1.getBoundingClientRect();
