@@ -1,7 +1,6 @@
 'use strict';
 
 ///////////////////////////////////////
-// Modal window
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -15,22 +14,21 @@ const nav = document.querySelector('.nav');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
-//
-// const stickyclass = function () {
-//   // const link = e.target.closest('.nav');
-//   const coord1 = section1.getBoundingClientRect();
-//   const coord2 = section2.getBoundingClientRect();
-
-//   if (window.scrollY - 700 > coord1.top) nav.classList.add('sticky');
-//   else nav.classList.remove('sticky');
-// };
+const sections = document.querySelectorAll('.section'); //nodelist
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
-// console.log(navHeight);
-function callObserve(entries, observe) {
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+const maxSlide = slides.length;
+const allImageN = document.querySelectorAll('img[data-src]');
+const dotOwner = document.querySelector('.dots');
+let curSlide = 0;
+
+function callObserve(entries, _) {
   if (!entries[0].isIntersecting) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
-  // console.log(entries);
 }
 // bu IntersectionObserver funksiyasi asosan sticky nav yoki bar larga ishlatiladi
 // observer.observe(header); bu narsa headerni belgilab olp unga threshold: 0, shu narsa bilan tasir foizini belgilab nmanidir boshlash yoki boshlamaslikni buyuradi callback fnc bilan agar tasir bor bolsa isIntersecting true truda yoksa false ex:if (!entries[0].isIntersecting) nav.classList.add('sticky');
@@ -43,13 +41,12 @@ const observer = new IntersectionObserver(callObserve, {
 observer.observe(header);
 
 // nice scrolled textAll
-const sections = document.querySelectorAll('.section');
 
 const revealFunc = function (secHead) {
   secHead.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.classList.remove('section--hidden');
-    observerr.unobserve(entry.target);
+    observerr.unobserve(entry.target); //For the revealFunc function, we want to reveal sections as they come into view. Once a section is revealed, we no longer need to monitor it, so we unobserve it to improve performance.
   });
 };
 const observerr = new IntersectionObserver(revealFunc, {
@@ -62,23 +59,17 @@ sections.forEach(section => {
   section.classList.add('section--hidden'); // +++++++++++++++++++++++++++++++++++++++++togrila
 });
 // working with lazy loading images !important
-const allImageN = document.querySelectorAll('img[data-src]');
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  // console.log(entries);
-
   if (!entry.isIntersecting) return;
   //importantpart bu joyda biz asosiy img yani 0.1mb lik img ni 1 mb lik imgga almashtryabmiz
-  // console.log(entry.target.src);
-  // console.log(entry.target.dataset.src);
   entry.target.src = entry.target.dataset.src;
   // addEventListener('load' vazifasi qachonki entry.target tayyor bolsa yani yangi rasmni joylagandan keyin blur classni remove qiladi
   entry.target.addEventListener('load', function () {
     entry.target.classList.remove('lazy-img');
   });
-  observer.unobserve(entry.target);
+  observer.unobserve(entry.target); //For the loadImg function, we want to load images when they come into view. Once an image is loaded, we unobserve it because it no longer needs to be monitored.
 };
-// console.log(allImageN);
 const lazyLoad = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
@@ -87,12 +78,7 @@ const lazyLoad = new IntersectionObserver(loadImg, {
 allImageN.forEach(img => lazyLoad.observe(img));
 
 // working with slides
-const slides = document.querySelectorAll('.slide');
-const slider = document.querySelector('.slider');
-const btnRight = document.querySelector('.slider__btn--right');
-const btnLeft = document.querySelector('.slider__btn--left');
-let curSlide = 0;
-const maxSlide = slides.length;
+
 // slider.style.transform = 'scale(0.6) ';
 // slider.style.overflow = 'visible';
 // slider.style.width = '100rem';
@@ -109,7 +95,7 @@ const dotActive = function (slide) {
 const slideIt = function (slide) {
   slides.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - slide)}%)`; // eng muhum joyi shu ==========>
-  });
+  }); // BU funksiya translateX(${100 * (i - slide) har bir elementga 100 * joyidan qozgalish foizini beradi va unga transiton berilgan
 };
 
 const prevSlide = function () {
@@ -146,7 +132,6 @@ document.addEventListener('keydown', function (e) {
   e.key === 'ArrowRight' && nextSlide();
 });
 // dots
-const dotOwner = document.querySelector('.dots');
 const createDots = function () {
   slides.forEach(function (_, i) {
     dotOwner.insertAdjacentHTML(
@@ -231,15 +216,15 @@ nav.addEventListener('mouseout', hoverOver.bind(1)); // same here
 
 const alert1 = function () {
   alert('you are using mouseenter event on heading');
-
   h1.removeEventListener('mouseenter', alert1); // removing the event right after it worked once
   // or we can put time to remove or add it after some time
-  setTimeout(() => {
+  setInterval(() => {
     h1.addEventListener('mouseenter', alert1);
   }, 10000);
 };
 h1.addEventListener('mouseenter', alert1);
 
+// Modal window
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -250,24 +235,18 @@ const closeModal = function () {
   modal.classList.add('hidden');
   overlay.classList.add('hidden');
 };
-
-// for (
-//   let i = 0;
-//   i < btnsOpenModal.length;
-//   i++ // here we are using for loop to run all elements named btn--show-modal
-// )
-btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal)); //// here we are using for loop to run all elements named btn--show-modal
+//// here we are using for loop to run all elements named btn--show-modal
+btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
+// this btn 'keyword' listener helps us to remove model with "escape" key and !modal.classList.contains('hidden') is here to check if there is any hidden class available or not if yes closeModal() func runs ↓
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
-}); // this btn 'keyword' listener helps us to remove model with "escape" key and !modal.classList.contains('hidden') is here to check if there is any hidden class available or not if yes closeModal() func runs
-//
-
+});
 /// nav bar scrolling with using target and contains and matching strategy event deligation
 // The event.target property can be used in order to implement event delegation.
 // vent delegation is a powerful technique that simplifies event handling, improves performance, and enhances the flexibility of your code. By leveraging the event bubbling mechanism, you can efficiently manage events on a group of elements rather than dealing with each one individually.
@@ -389,3 +368,16 @@ h1.closest('.h2');
 // console.log(h1.parentElement);
 // console.log(h1.parentElement.children);
 // console.log();
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log(e);
+});
+window.addEventListener('load', function (e) {
+  console.log('page fully loaded', e);
+});
+
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
